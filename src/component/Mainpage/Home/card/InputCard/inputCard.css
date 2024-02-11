@@ -1,0 +1,14 @@
+.input-card-parent {
+  padding: 2rem;
+
+  gap: 1rem;
+
+  /* border: 1px red solid; */
+}
+
+.input-card-profile-image img {
+  /* border: 1px red solid; */
+  width: 3rem;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+}

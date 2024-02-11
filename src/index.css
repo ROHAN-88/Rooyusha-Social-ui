@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope&display=swap");
+body {
+  background: #f5f7f8;
+  margin: 0%;
+  padding: 0%;
+  font-family: "Manrope", sans-serif;
+}
+
+.darkMode {
+  background-color: #222222;
+  color: white;
+}
+.lightMode {
+  background-color: white;
+  color: black;
+}
+
+.error-msg {
+  color: red;
+}

@@ -1,0 +1,27 @@
+.hover-navbar {
+  width: 100px;
+  padding: 1rem;
+  /* border: 1px red solid; */
+  text-align: center;
+  margin: 0;
+}
+.hover-navbar:hover {
+  background-color: rgb(199, 192, 192);
+  cursor: pointer;
+}
+
+.after-navbar {
+  cursor: pointer;
+}
+.after-navbar:after {
+  content: "";
+  height: 2px;
+  background-color: #f3f0ca;
+  display: block;
+  margin: auto;
+  width: 0%;
+}
+.after-navbar:hover:after {
+  width: 100%;
+  transition: 1s;
+}
