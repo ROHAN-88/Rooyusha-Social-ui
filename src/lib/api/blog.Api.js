@@ -1,6 +1,7 @@
 import { $axios } from "../axios";
 
 export const creatPost = async (values) => {
+  console.log("Hello form creat");
   return await $axios.post("/addPost", values);
 };
 

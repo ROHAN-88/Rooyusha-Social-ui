@@ -34,7 +34,10 @@ const InputCard = () => {
     mutationFn: (values) => creatPost(values),
     onSuccess: () => {
       queryClient.invalidateQueries("get-Post");
-      console.log(productImages);
+      setlocalUrl(null);
+    },
+    onError: (e) => {
+      console.log("errorrrr", e);
     },
   });
 
@@ -91,10 +94,7 @@ const InputCard = () => {
         >
           {(formik) => (
             <form
-              onSubmit={(event) => {
-                event.preventDefault();
-                formik.handleSubmit;
-              }}
+              onSubmit={formik.handleSubmit}
               style={{
                 display: "flex",
                 justifyContent: "space-between",
