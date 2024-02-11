@@ -83,6 +83,7 @@ const BlogCard = (props) => {
       queryClient.invalidateQueries("get-Post");
     },
   });
+  5;
 
   return (
     <Box
