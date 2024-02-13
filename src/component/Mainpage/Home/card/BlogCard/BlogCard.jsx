@@ -29,6 +29,7 @@ const BlogCard = (props) => {
     _id,
     text,
     imageUrl,
+    imageType,
     firstName,
     lastName,
     pictureUrl,
@@ -161,13 +162,20 @@ const BlogCard = (props) => {
             </div>
           )}
         </div>
-        {imageUrl && (
+        {imageType === "Image" && imageUrl && (
           <CardMedia
             component="img"
             // height="550"
+
             image={imageUrl}
             alt="Paella dish"
           />
+        )}
+        {imageType === "Video" && imageUrl && (
+          // <CardMedia src={imageUrl} height="550" alt="VIDEO" />
+          <video height="550" type="video/mp4" controls>
+            <source src={imageUrl} />
+          </video>
         )}
         <CardContent>
           <Typography

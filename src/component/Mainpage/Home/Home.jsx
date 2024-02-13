@@ -11,7 +11,6 @@ const Home = () => {
     queryKey: ["get-Post"],
     queryFn: () => getPost(),
   });
-
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>

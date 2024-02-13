@@ -1,15 +1,22 @@
-import React, { useState } from "react";
-import { Formik } from "formik";
-import * as Yup from "yup";
 import { Box, Button, Stack, TextField } from "@mui/material";
-import "./inputCard.css";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import axios from "axios";
+import { Formik } from "formik";
+import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
+import * as Yup from "yup";
+import { placeHolderImage } from "../../../../../../constant/gerneral.constant";
 import { creatPost } from "../../../../../lib/api/blog.Api";
 import Loader from "../../../../../loader/Loader";
-import { useSelector } from "react-redux";
-import { placeHolderImage } from "../../../../../../constant/gerneral.constant";
+import "./inputCard.css";
 const InputCard = () => {
+  //!Image type useState to change bwtween vid and img
+  const [imageType, setImageType] = useState("Image");
+  // console.log(imageType);
   //!react -redux
   const { mode } = useSelector((state) => state.darkMode);
 
@@ -37,7 +44,7 @@ const InputCard = () => {
       setlocalUrl(null);
     },
     onError: (e) => {
-      console.log("errorrrr", e);
+      console.log("error", e);
     },
   });
 
@@ -61,9 +68,10 @@ const InputCard = () => {
       </div>
       <div className="input-card-box">
         <Formik
-          initialValues={{ text: "" }}
+          initialValues={{ text: "", imageType: "" }}
           validationSchema={Yup.object({
             text: Yup.string().required("Required"),
+            imageType: Yup.string().oneOf(["Image", "Video"]),
           })}
           onSubmit={async (values) => {
             let imageUrl = "";
@@ -72,17 +80,28 @@ const InputCard = () => {
               // creates form data object
               const data = new FormData();
               data.append("file", productImages);
-              data.append("upload_preset", "hermes-mart");
+              // data.append("upload_preset", "hermes-mart");
+              data.append(
+                "upload_preset",
+                imageType === "Image" ? "image_preset" : "video_preset"
+              );
               data.append("cloud_name", cloudName);
 
               try {
+                // const res = await axios.post(
+                //   `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                //   data
+                // );
+                // ? for video
+                const resourceType = imageType === "Image" ? "image" : "video";
                 const res = await axios.post(
-                  `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                  `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`,
                   data
                 );
 
                 imageUrl = res.data.secure_url;
               } catch (error) {
+                console.log("Image uplaod", error);
                 dispatch(openErrorSnackbar("Image upload failed."));
               }
             }
@@ -121,13 +140,18 @@ const InputCard = () => {
 
                 <div style={{ marginTop: "1rem" }}>
                   {/* image ===============  */}
-                  {loaclUrl && (
+                  {imageType === "Image" && loaclUrl && (
                     <img
                       src={loaclUrl}
                       width={350}
                       height={250}
                       style={{ objectFit: "cover" }}
                     />
+                  )}
+                  {imageType === "Video" && loaclUrl && (
+                    <video width={350} height={250} controls>
+                      <source src={loaclUrl} />
+                    </video>
                   )}
                   <Box sx={{ marginBottom: "1rem" }}>
                     <Stack direction="row" alignItems="center" spacing={2}>
@@ -138,7 +162,7 @@ const InputCard = () => {
                         Upload Image
                         <input
                           hidden
-                          accept="image/*"
+                          accept="image/*,video/*"
                           multiple
                           type="file"
                           onChange={(event) => {
@@ -148,7 +172,40 @@ const InputCard = () => {
                           }}
                         />
                       </Button>
+                      {/* //!Select the Image Type  */}
+                      <Box sx={{ minWidth: 120 }}>
+                        <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                            Type
+                          </InputLabel>
+                          <Select
+                            label="Type"
+                            // onChange={handleChange}
+                            {...formik.getFieldProps("imageType")}
+                          >
+                            <MenuItem
+                              value={"Image"}
+                              onClick={() => setImageType("Image")}
+                            >
+                              Image
+                            </MenuItem>
+                            <MenuItem
+                              value={"Video"}
+                              onClick={() => setImageType("Video")}
+                            >
+                              Video
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Box>
                     </Stack>
+
+                    {/* //!Video  */}
+                    {/* <Stack>
+                      <Button>
+                        <video src={} />
+                      </Button>
+                    </Stack> */}
                   </Box>
                 </div>
               </div>
