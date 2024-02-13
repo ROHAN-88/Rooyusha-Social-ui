@@ -172,10 +172,11 @@ const BlogCard = (props) => {
           />
         )}
         {imageType === "Video" && imageUrl && (
-          // <CardMedia src={imageUrl} height="550" alt="VIDEO" />
-          <video height="550" type="video/mp4" controls>
-            <source src={imageUrl} />
-          </video>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <video height="550" type="video/mp4" controls>
+              <source src={imageUrl} />
+            </video>
+          </div>
         )}
         <CardContent>
           <Typography
